@@ -33,6 +33,8 @@ namespace WindowsFormsApp2
             this.lState = new System.Windows.Forms.Label();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.InputFile = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnGenerate
@@ -71,11 +73,31 @@ namespace WindowsFormsApp2
             this.InputFile.Size = new System.Drawing.Size(285, 20);
             this.InputFile.TabIndex = 4;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 41);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(175, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "1. Click \"Browse\" to select input file";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(291, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "2. Click \"Generate\" to generate output file (Save file as *.xls)";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 57);
+            this.ClientSize = new System.Drawing.Size(556, 83);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.InputFile);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.lState);
@@ -96,6 +118,8 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.Label lState;
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox InputFile;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
