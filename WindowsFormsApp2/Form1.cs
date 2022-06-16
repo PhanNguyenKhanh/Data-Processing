@@ -124,10 +124,11 @@ namespace WindowsFormsApp2
                 xlWorkSheet1.get_Range("A1", "F1").Borders.LineStyle = Excel.XlLineStyle.xlContinuous;
 
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Microsoft Excel Workbook|*.xls|Strict Open XML Spreadsheet|*.xlsx|All|*.*";
                 DialogResult result = saveFileDialog.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    xlWorkBook1.SaveAs(@"" + saveFileDialog.FileName, Excel.XlFileFormat.xlWorkbookNormal, missValue, missValue, missValue, missValue, Excel.XlSaveAsAccessMode.xlExclusive, missValue, missValue, missValue, missValue, missValue);
+                    xlWorkBook1.SaveAs(@"" + saveFileDialog.FileName);
                 }
 
                 xlWorkBook1.Close(false, missValue, missValue);

@@ -87,9 +87,9 @@ namespace WindowsFormsApp2
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 58);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(291, 13);
+            this.label2.Size = new System.Drawing.Size(205, 13);
             this.label2.TabIndex = 6;
-            this.label2.Text = "2. Click \"Generate\" to generate output file (Save file as *.xls)";
+            this.label2.Text = "2. Click \"Generate\" to generate output file";
             // 
             // Form1
             // 
