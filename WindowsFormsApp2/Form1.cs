@@ -41,6 +41,24 @@ namespace WindowsFormsApp2
                 return (timeSpan.Hours - 1 + (float)timeSpan.Minutes / 60).ToString("0.00");
             }
         }
+        private static void findMinDate(string time, ref DateTime minDate)
+        {
+            string date = splitString(time, ' ', 0);
+            DateTime d = new DateTime(int.Parse(splitString(date, '.', 2)), int.Parse(splitString(date, '.', 1)), int.Parse(splitString(date, '.', 0)));
+            if(d < minDate)
+            {
+                minDate = d;
+            }
+        }
+        private static void findMaxDate(string time, ref DateTime maxDate)
+        {
+            string date = splitString(time, ' ', 0);
+            DateTime d = new DateTime(int.Parse(splitString(date, '.', 2)), int.Parse(splitString(date, '.', 1)), int.Parse(splitString(date, '.', 0)));
+            if (d > maxDate)
+            {
+                maxDate = d;
+            }
+        }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             lState.Text = "Processing...";
@@ -50,6 +68,8 @@ namespace WindowsFormsApp2
                 string tIn = "";
                 string tOut = "";
                 Boolean flagIn = false;
+
+                String D = "";
 
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(@"" + InputFile.Text);
@@ -65,6 +85,19 @@ namespace WindowsFormsApp2
 
                 int rowCount = xlRange.Rows.Count;
 
+                D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
+                DateTime minDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
+                DateTime maxDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
+
+                for(int i = 2; i <= rowCount; i++)
+                {
+                    findMinDate(xlRange.Cells[i, 1].Value.ToString(), ref minDate);
+                    findMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref maxDate);
+                }
+
+                label3.Text = minDate.ToString("dd.MM.yyyy");
+                label4.Text = maxDate.ToString();
+
                 xlWorkSheet1.Cells[1, 1] = "Staff's Name";
                 xlWorkSheet1.Cells[1, 2] = "Date";
                 xlWorkSheet1.Cells[1, 3] = "Day";
@@ -72,29 +105,96 @@ namespace WindowsFormsApp2
                 xlWorkSheet1.Cells[1, 5] = "Time out";
                 xlWorkSheet1.Cells[1, 6] = "Total Working Time";
 
-                xlWorkSheet1.Cells[2, 1] = xlRange.Cells[2, 4].Value.ToString();
-                xlWorkSheet1.Cells[2, 2] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
-                xlWorkSheet1.Cells[2, 3] = DayOfWeek(splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0));
+                DateTime d = minDate;
+
+                while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0))
+                {
+                    xlWorkSheet1.Cells[j, 1] = xlRange.Cells[2, 4].Value.ToString();
+                    xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
+                    xlWorkSheet1.Cells[j, 3] = DayOfWeek(d.ToString("dd.MM.yyyy"));
+                    j++;
+                    if (d < maxDate)
+                    {
+                        d = d.AddDays(1);
+                    }
+                    else
+                    {
+                        d = minDate;
+                    }
+                }
+                xlWorkSheet1.Cells[j, 1] = xlRange.Cells[2, 4].Value.ToString();
+                xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
+                xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0));
 
                 if (xlRange.Cells[2, 2].Value.ToString() == "entry reader 1")
                 {
-                    xlWorkSheet1.Cells[2, 4] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
+                    xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
                     tIn = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
                     flagIn = true;
+                }
+
+                if (d < maxDate)
+                {
+                    d = d.AddDays(1);
+                }
+                else
+                {
+                    d = minDate;
                 }
 
                 for (int i = 3; i <= rowCount; i++)
                 {
                     if (splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0) != splitString(xlRange.Cells[(i - 1), 1].Value.ToString(), ' ', 0) || xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
                     {
+                        Boolean flagName = false;
+
                         if (tIn != null && tOut != null)
                         {
                             xlWorkSheet1.Cells[j, 6] = TotalWorkingTime(tIn, tOut);
                         }
+                            
                         j++;
+
+                        while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0))
+                        {
+                            if (flagName == false)
+                            {
+                                xlWorkSheet1.Cells[j, 1] = xlRange.Cells[(i - 1), 4].Value.ToString();
+                            }
+                            else
+                            {
+                                xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
+                            }
+
+                            xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
+                            xlWorkSheet1.Cells[j, 3] = DayOfWeek(d.ToString("dd.MM.yyyy"));
+                            j++;
+
+                            if (d < maxDate)
+                            {
+                                d = d.AddDays(1);
+                            }
+                            else
+                            {
+                                d = minDate;
+                                if(xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
+                                {
+                                    flagName = true;
+                                }
+                            }
+                        }
                         xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
                         xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0);
                         xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0));
+                        if (d < maxDate)
+                        {
+                            d = d.AddDays(1);
+                        }
+                        else
+                        {
+                            d = minDate;
+                        }
+
                         flagIn = false;
                     }
                     if (flagIn == false)
