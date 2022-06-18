@@ -30,9 +30,17 @@ namespace WindowsFormsApp2
         }
         private static string TotalWorkingTime(string timeIn, string timeOut)
         {
+            if(DateTime.Parse(timeIn) > DateTime.Parse("12:00:00") && DateTime.Parse(timeIn) < DateTime.Parse("13:00:00"))
+            {
+                timeIn = "13:00:00";
+            }
+            if (DateTime.Parse(timeOut) > DateTime.Parse("12:00:00") && DateTime.Parse(timeOut) < DateTime.Parse("13:00:00"))
+            {
+                timeIn = "12:00:00";
+            }
             TimeSpan timeSpan = DateTime.Parse(timeOut) - DateTime.Parse(timeIn);
 
-            if (DateTime.Parse(timeIn) > DateTime.Parse("13:00:00") || DateTime.Parse(timeOut) < DateTime.Parse("12:00:00"))
+            if (DateTime.Parse(timeIn) >= DateTime.Parse("13:00:00") || DateTime.Parse(timeOut) <= DateTime.Parse("12:00:00"))
             {
                 return (timeSpan.Hours + (float)timeSpan.Minutes / 60).ToString("0.0");
             }
@@ -41,19 +49,14 @@ namespace WindowsFormsApp2
                 return (timeSpan.Hours - 1 + (float)timeSpan.Minutes / 60).ToString("0.00");
             }
         }
-        private static void findMinDate(string time, ref DateTime minDate)
+        private static void findMinMaxDate(string time, ref DateTime minDate, ref DateTime maxDate)
         {
             string date = splitString(time, ' ', 0);
             DateTime d = new DateTime(int.Parse(splitString(date, '.', 2)), int.Parse(splitString(date, '.', 1)), int.Parse(splitString(date, '.', 0)));
-            if(d < minDate)
+            if (d < minDate)
             {
                 minDate = d;
             }
-        }
-        private static void findMaxDate(string time, ref DateTime maxDate)
-        {
-            string date = splitString(time, ' ', 0);
-            DateTime d = new DateTime(int.Parse(splitString(date, '.', 2)), int.Parse(splitString(date, '.', 1)), int.Parse(splitString(date, '.', 0)));
             if (d > maxDate)
             {
                 maxDate = d;
@@ -92,8 +95,7 @@ namespace WindowsFormsApp2
 
                 for(int i = 2; i <= rowCount; i++)
                 {
-                    findMinDate(xlRange.Cells[i, 1].Value.ToString(), ref minDate);
-                    findMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref maxDate);
+                    findMinMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref minDate, ref maxDate);
                 }
 
                 lState.Text = "Processing...";
