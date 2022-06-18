@@ -61,7 +61,6 @@ namespace WindowsFormsApp2
         }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            lState.Text = "Processing...";
             try
             {
                 int j = 2;
@@ -85,6 +84,8 @@ namespace WindowsFormsApp2
 
                 int rowCount = xlRange.Rows.Count;
 
+                lState.Text = "Getting range of date...";
+
                 D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
                 DateTime minDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
                 DateTime maxDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
@@ -95,8 +96,7 @@ namespace WindowsFormsApp2
                     findMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref maxDate);
                 }
 
-                label3.Text = minDate.ToString("dd.MM.yyyy");
-                label4.Text = maxDate.ToString();
+                lState.Text = "Processing...";
 
                 xlWorkSheet1.Cells[1, 1] = "Staff's Name";
                 xlWorkSheet1.Cells[1, 2] = "Date";
@@ -217,7 +217,6 @@ namespace WindowsFormsApp2
 
                 //Set Column Width
                 xlWorkSheet1.Columns.AutoFit();
-                //xlWorkSheet1.Columns[1].ColumnWidth = 30;
 
                 //Format Cells
                 xlWorkSheet1.get_Range("A1", "F1").Interior.Color = Excel.XlRgbColor.rgbYellow;
@@ -242,7 +241,7 @@ namespace WindowsFormsApp2
                 Marshal.ReleaseComObject(xlRange);
                 Marshal.ReleaseComObject(xlWorkSheet);
 
-                xlWorkBook.Close();
+                xlWorkBook.Close(false, missValue, missValue);
                 Marshal.ReleaseComObject(xlWorkBook);
 
                 xlApp.Quit();

@@ -34,9 +34,6 @@ namespace WindowsFormsApp2
             this.btnBrowse = new System.Windows.Forms.Button();
             this.InputFile = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnGenerate
@@ -54,9 +51,9 @@ namespace WindowsFormsApp2
             this.lState.AutoSize = true;
             this.lState.Location = new System.Drawing.Point(465, 17);
             this.lState.Name = "lState";
-            this.lState.Size = new System.Drawing.Size(48, 13);
+            this.lState.Size = new System.Drawing.Size(16, 13);
             this.lState.TabIndex = 1;
-            this.lState.Text = "Success";
+            this.lState.Text = "...";
             // 
             // btnBrowse
             // 
@@ -80,45 +77,16 @@ namespace WindowsFormsApp2
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 41);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(175, 13);
+            this.label1.Size = new System.Drawing.Size(296, 26);
             this.label1.TabIndex = 5;
-            this.label1.Text = "1. Click \"Browse\" to select input file";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 58);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(205, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "2. Click \"Generate\" to generate output file";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(342, 42);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "label3";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(345, 59);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "label4";
+            this.label1.Text = "1. Click \"Browse\" to select input file (must be sorted by name)\r\n2. Click \"Genera" +
+    "te\" to generate output file";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(556, 83);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(593, 71);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.InputFile);
             this.Controls.Add(this.btnBrowse);
@@ -141,9 +109,6 @@ namespace WindowsFormsApp2
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.TextBox InputFile;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
     }
 }
 
