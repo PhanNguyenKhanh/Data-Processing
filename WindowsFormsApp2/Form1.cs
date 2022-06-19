@@ -30,23 +30,34 @@ namespace WindowsFormsApp2
         }
         private static string TotalWorkingTime(string timeIn, string timeOut)
         {
-            if(DateTime.Parse(timeIn) > DateTime.Parse("12:00:00") && DateTime.Parse(timeIn) < DateTime.Parse("13:00:00"))
+            // If 12h < Time-in/Time-out < 13h then working time = 0 
+            if (DateTime.Parse(timeIn) > DateTime.Parse("12:00:00") && DateTime.Parse(timeIn) < DateTime.Parse("13:00:00") && DateTime.Parse(timeOut) > DateTime.Parse("12:00:00") && DateTime.Parse(timeOut) < DateTime.Parse("13:00:00"))
             {
-                timeIn = "13:00:00";
-            }
-            if (DateTime.Parse(timeOut) > DateTime.Parse("12:00:00") && DateTime.Parse(timeOut) < DateTime.Parse("13:00:00"))
-            {
-                timeIn = "12:00:00";
-            }
-            TimeSpan timeSpan = DateTime.Parse(timeOut) - DateTime.Parse(timeIn);
-
-            if (DateTime.Parse(timeIn) >= DateTime.Parse("13:00:00") || DateTime.Parse(timeOut) <= DateTime.Parse("12:00:00"))
-            {
-                return (timeSpan.Hours + (float)timeSpan.Minutes / 60).ToString("0.0");
+                return "0.00";
             }
             else
             {
-                return (timeSpan.Hours - 1 + (float)timeSpan.Minutes / 60).ToString("0.00");
+                // If 12h < Time-in < 13h then Time-in = 13h 
+                if (DateTime.Parse(timeIn) > DateTime.Parse("12:00:00") && DateTime.Parse(timeIn) < DateTime.Parse("13:00:00"))
+                {
+                    timeIn = "13:00:00";
+                }
+                // If 12h < Time-out < 13h then Time-in = 12h 
+                if (DateTime.Parse(timeOut) > DateTime.Parse("12:00:00") && DateTime.Parse(timeOut) < DateTime.Parse("13:00:00"))
+                {
+                    timeIn = "12:00:00";
+                }
+
+                TimeSpan timeSpan = DateTime.Parse(timeOut) - DateTime.Parse(timeIn);
+
+                if (DateTime.Parse(timeIn) >= DateTime.Parse("13:00:00") || DateTime.Parse(timeOut) <= DateTime.Parse("12:00:00"))
+                {
+                    return (timeSpan.Hours + (float)timeSpan.Minutes / 60).ToString("0.0");
+                }
+                else
+                {
+                    return (timeSpan.Hours - 1 + (float)timeSpan.Minutes / 60).ToString("0.00");
+                }
             }
         }
         private static void findMinMaxDate(string time, ref DateTime minDate, ref DateTime maxDate)
@@ -212,6 +223,18 @@ namespace WindowsFormsApp2
                 if (tIn != null && tOut != null)
                 {
                     xlWorkSheet1.Cells[j, 6] = TotalWorkingTime(tIn, tOut);
+                }
+
+                if (d != minDate)
+                {
+                    while (d <= maxDate)
+                    {
+                        j++;
+                        xlWorkSheet1.Cells[j, 1] = xlRange.Cells[rowCount, 4].Value.ToString();
+                        xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
+                        xlWorkSheet1.Cells[j, 3] = DayOfWeek(d.ToString("dd.MM.yyyy"));
+                        d = d.AddDays(1);
+                    }
                 }
 
                 //Set Column Width
