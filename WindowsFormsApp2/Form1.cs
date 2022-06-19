@@ -64,6 +64,7 @@ namespace WindowsFormsApp2
         }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            lState.Text = "Processing...";
             try
             {
                 int j = 2;
@@ -87,8 +88,6 @@ namespace WindowsFormsApp2
 
                 int rowCount = xlRange.Rows.Count;
 
-                lState.Text = "Getting range of date...";
-
                 D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
                 DateTime minDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
                 DateTime maxDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
@@ -97,8 +96,6 @@ namespace WindowsFormsApp2
                 {
                     findMinMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref minDate, ref maxDate);
                 }
-
-                lState.Text = "Processing...";
 
                 xlWorkSheet1.Cells[1, 1] = "Staff's Name";
                 xlWorkSheet1.Cells[1, 2] = "Date";
