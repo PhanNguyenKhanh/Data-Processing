@@ -31,7 +31,7 @@ namespace WindowsFormsApp2
         private static string TotalWorkingTime(string timeIn, string timeOut)
         {
             // If 12h < Time-in/Time-out < 13h then working time = 0 
-            if (DateTime.Parse(timeIn) > DateTime.Parse("12:00:00") && DateTime.Parse(timeIn) < DateTime.Parse("13:00:00") && DateTime.Parse(timeOut) > DateTime.Parse("12:00:00") && DateTime.Parse(timeOut) < DateTime.Parse("13:00:00"))
+            if (DateTime.Parse(timeIn) >= DateTime.Parse("12:00:00") && DateTime.Parse(timeIn) <= DateTime.Parse("13:00:00") && DateTime.Parse(timeOut) > DateTime.Parse("12:00:00") && DateTime.Parse(timeOut) < DateTime.Parse("13:00:00"))
             {
                 return "0.00";
             }
@@ -45,7 +45,7 @@ namespace WindowsFormsApp2
                 // If 12h < Time-out < 13h then Time-in = 12h 
                 if (DateTime.Parse(timeOut) > DateTime.Parse("12:00:00") && DateTime.Parse(timeOut) < DateTime.Parse("13:00:00"))
                 {
-                    timeIn = "12:00:00";
+                    timeOut = "12:00:00";
                 }
 
                 TimeSpan timeSpan = DateTime.Parse(timeOut) - DateTime.Parse(timeIn);
@@ -156,8 +156,6 @@ namespace WindowsFormsApp2
                 {
                     if (splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0) != splitString(xlRange.Cells[(i - 1), 1].Value.ToString(), ' ', 0) || xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
                     {
-                        Boolean flagName = false;
-
                         if (tIn != null && tOut != null)
                         {
                             xlWorkSheet1.Cells[j, 6] = TotalWorkingTime(tIn, tOut);
@@ -167,14 +165,7 @@ namespace WindowsFormsApp2
 
                         while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0))
                         {
-                            if (flagName == false)
-                            {
-                                xlWorkSheet1.Cells[j, 1] = xlRange.Cells[(i - 1), 4].Value.ToString();
-                            }
-                            else
-                            {
-                                xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
-                            }
+                            xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
 
                             xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
                             xlWorkSheet1.Cells[j, 3] = DayOfWeek(d.ToString("dd.MM.yyyy"));
@@ -187,10 +178,6 @@ namespace WindowsFormsApp2
                             else
                             {
                                 d = minDate;
-                                if(xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
-                                {
-                                    flagName = true;
-                                }
                             }
                         }
                         xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
