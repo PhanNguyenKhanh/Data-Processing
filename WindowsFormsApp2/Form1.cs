@@ -160,6 +160,10 @@ namespace WindowsFormsApp2
                         {
                             xlWorkSheet1.Cells[j, 6] = TotalWorkingTime(tIn, tOut);
                         }
+
+                        //reset tIn, tOut
+                        tIn = null;
+                        tOut = null;
                             
                         j++;
 
@@ -203,8 +207,14 @@ namespace WindowsFormsApp2
                             flagIn = true;
                         }
                     }
-                    xlWorkSheet1.Cells[j, 5] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
-                    tOut = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+                    else
+                    {
+                        if (xlRange.Cells[i, 2].Value.ToString() != "entry reader 1")
+                        {
+                            xlWorkSheet1.Cells[j, 5] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+                            tOut = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+                        }
+                    }
                 }
 
                 if (tIn != null && tOut != null)
