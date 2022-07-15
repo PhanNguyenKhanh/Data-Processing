@@ -82,6 +82,7 @@ namespace WindowsFormsApp2
                 string tIn = "";
                 string tOut = "";
                 Boolean flagIn = false;
+                Boolean flagName = false;
 
                 String D = "";
 
@@ -156,6 +157,7 @@ namespace WindowsFormsApp2
                 {
                     if (splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0) != splitString(xlRange.Cells[(i - 1), 1].Value.ToString(), ' ', 0) || xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
                     {
+                        //Boolean flagName = false;
                         if (tIn != null && tOut != null)
                         {
                             xlWorkSheet1.Cells[j, 6] = TotalWorkingTime(tIn, tOut);
@@ -169,7 +171,14 @@ namespace WindowsFormsApp2
 
                         while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0))
                         {
-                            xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
+                            if (flagName == false)
+                            {
+                                xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i - 1, 4].Value.ToString();
+                            }
+                            else
+                            {
+                                xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
+                            }
 
                             xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
                             xlWorkSheet1.Cells[j, 3] = DayOfWeek(d.ToString("dd.MM.yyyy"));
@@ -182,6 +191,7 @@ namespace WindowsFormsApp2
                             else
                             {
                                 d = minDate;
+                                flagName = true;
                             }
                         }
                         xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
@@ -190,10 +200,12 @@ namespace WindowsFormsApp2
                         if (d < maxDate)
                         {
                             d = d.AddDays(1);
+                            flagName = false;
                         }
                         else
                         {
                             d = minDate;
+                            flagName = true;
                         }
 
                         flagIn = false;
