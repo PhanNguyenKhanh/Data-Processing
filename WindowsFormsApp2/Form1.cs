@@ -92,7 +92,6 @@ namespace WindowsFormsApp2
                 int j = 2;
                 string tIn = "";
                 string tOut = "";
-                Boolean flagIn = false;
                 Boolean flagName = false;
 
                 String D = "";
@@ -148,12 +147,9 @@ namespace WindowsFormsApp2
                 xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
                 xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0));
 
-                if (xlRange.Cells[2, 2].Value.ToString() == "entry reader 1" || xlRange.Cells[2, 2].Value.ToString() == "access reader")
-                {
-                    xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
-                    tIn = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
-                    flagIn = true;
-                }
+                //Check-in
+                xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
+                tIn = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
 
                 if (d < maxDate)
                 {
@@ -168,7 +164,6 @@ namespace WindowsFormsApp2
                 {
                     if (splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0) != splitString(xlRange.Cells[(i - 1), 1].Value.ToString(), ' ', 0) || xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
                     {
-                        //Boolean flagName = false;
                         if (tIn != null && tOut != null)
                         {
                             xlWorkSheet1.Cells[j, 6] = TotalWorkingTime(tIn, tOut);
@@ -219,25 +214,15 @@ namespace WindowsFormsApp2
                             flagName = true;
                         }
 
-                        flagIn = false;
+                        //Check-in
+                        xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+                        tIn = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+
                     }
-                    if (flagIn == false)
-                    {
-                        if (xlRange.Cells[i, 2].Value.ToString() == "entry reader 1" || xlRange.Cells[i, 2].Value.ToString() == "access reader")
-                        {
-                            xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
-                            tIn = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
-                            flagIn = true;
-                        }
-                    }
-                    else
-                    {
-                        if (xlRange.Cells[i, 2].Value.ToString() != "entry reader 1")
-                        {
-                            xlWorkSheet1.Cells[j, 5] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
-                            tOut = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
-                        }
-                    }
+
+                    //Check-out
+                    xlWorkSheet1.Cells[j, 5] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+                    tOut = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
                 }
 
                 if (tIn != null && tOut != null)
