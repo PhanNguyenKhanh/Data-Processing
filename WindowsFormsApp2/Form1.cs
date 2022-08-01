@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Diagnostics;
 
 namespace WindowsFormsApp2
 {
@@ -76,6 +77,16 @@ namespace WindowsFormsApp2
         private void btnGenerate_Click(object sender, EventArgs e)
         {
             lState.Text = "Processing...";
+
+            //Kill background process Excel
+            foreach (Process process in Process.GetProcesses())
+            {
+                if (process.ProcessName.Equals("EXCEL") && process.MainWindowHandle.ToString() == "0")
+                {
+                    process.Kill();
+                }
+            }
+            
             try
             {
                 int j = 2;
@@ -137,7 +148,7 @@ namespace WindowsFormsApp2
                 xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
                 xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0));
 
-                if (xlRange.Cells[2, 2].Value.ToString() == "entry reader 1")
+                if (xlRange.Cells[2, 2].Value.ToString() == "entry reader 1" || xlRange.Cells[2, 2].Value.ToString() == "access reader")
                 {
                     xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
                     tIn = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
@@ -212,7 +223,7 @@ namespace WindowsFormsApp2
                     }
                     if (flagIn == false)
                     {
-                        if (xlRange.Cells[i, 2].Value.ToString() == "entry reader 1")
+                        if (xlRange.Cells[i, 2].Value.ToString() == "entry reader 1" || xlRange.Cells[i, 2].Value.ToString() == "access reader")
                         {
                             xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
                             tIn = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
