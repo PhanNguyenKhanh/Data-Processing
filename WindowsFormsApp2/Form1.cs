@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Diagnostics;
+using System.Threading;
 
 namespace WindowsFormsApp2
 {
@@ -76,7 +77,7 @@ namespace WindowsFormsApp2
         }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
-            lState.Text = "Processing...";
+            lState.Text = "File is opening...";
 
             //Kill background process Excel
             foreach (Process process in Process.GetProcesses())
@@ -86,7 +87,16 @@ namespace WindowsFormsApp2
                     process.Kill();
                 }
             }
-            
+
+            ThreadStart threadStrart = new ThreadStart(Processing);
+            Thread thread = new Thread(threadStrart);
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.IsBackground = true;
+            thread.Start();
+        }
+
+        private void Processing()
+        {
             try
             {
                 int j = 2;
@@ -110,7 +120,7 @@ namespace WindowsFormsApp2
 
                 int rowCount = xlRange.Rows.Count;
 
-                D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0); 
+                D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
                 DateTime minDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
                 DateTime maxDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
 
@@ -172,7 +182,7 @@ namespace WindowsFormsApp2
                         //reset tIn, tOut
                         tIn = null;
                         tOut = null;
-                            
+
                         j++;
 
                         while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0))
@@ -276,7 +286,7 @@ namespace WindowsFormsApp2
 
                 lState.Text = "Success";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lState.Text = "Error";
