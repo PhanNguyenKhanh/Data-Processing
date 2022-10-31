@@ -30,7 +30,7 @@ namespace WindowsFormsApp2
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            Global.sheetIndex = cbSheet.SelectedIndex;
+            Global.sheetIndex = cbSheet.SelectedIndex + 1;
             Global.colDate = cbDate.SelectedIndex + 1;
             Global.colName = cbName.SelectedIndex + 1;
         }
