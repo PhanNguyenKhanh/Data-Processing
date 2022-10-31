@@ -135,13 +135,13 @@ namespace WindowsFormsApp2
 
                     int rowCount = xlRange.Rows.Count;
 
-                    D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
+                    D = splitString(xlRange.Cells[2, Global.colDate].Value.ToString(), ' ', 0);
                     DateTime minDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
                     DateTime maxDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
 
                     for (int i = 2; i <= rowCount; i++)
                     {
-                        findMinMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref minDate, ref maxDate);
+                        findMinMaxDate(xlRange.Cells[i, Global.colDate].Value.ToString(), ref minDate, ref maxDate);
                         lState.Invoke(new MethodInvoker(() =>
                         {
                             lState.Text = "Checking the date (" + ((float)i / rowCount * 100).ToString("0.00") + "%)";
@@ -157,9 +157,9 @@ namespace WindowsFormsApp2
 
                     DateTime d = minDate;
 
-                    while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0))
+                    while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[2, Global.colDate].Value.ToString(), ' ', 0))
                     {
-                        xlWorkSheet1.Cells[j, 1] = xlRange.Cells[2, 4].Value.ToString();
+                        xlWorkSheet1.Cells[j, 1] = xlRange.Cells[2, Global.colName].Value.ToString();
                         xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
                         xlWorkSheet1.Cells[j, 3] = DayOfWeek(d.ToString("dd.MM.yyyy"));
                         j++;
@@ -172,13 +172,13 @@ namespace WindowsFormsApp2
                             d = minDate;
                         }
                     }
-                    xlWorkSheet1.Cells[j, 1] = xlRange.Cells[2, 4].Value.ToString();
-                    xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
-                    xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0));
+                    xlWorkSheet1.Cells[j, 1] = xlRange.Cells[2, Global.colName].Value.ToString();
+                    xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[2, Global.colDate].Value.ToString(), ' ', 0);
+                    xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[2, Global.colDate].Value.ToString(), ' ', 0));
 
                     //Check-in
-                    xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
-                    tIn = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 1);
+                    xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[2, Global.colDate].Value.ToString(), ' ', 1);
+                    tIn = splitString(xlRange.Cells[2, Global.colDate].Value.ToString(), ' ', 1);
 
                     if (d < maxDate)
                     {
@@ -196,7 +196,7 @@ namespace WindowsFormsApp2
                             lState.Text = "Processing (" + ((float)i / rowCount * 100).ToString("0.00") + "%)";
                         }));
 
-                        if (splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0) != splitString(xlRange.Cells[(i - 1), 1].Value.ToString(), ' ', 0) || xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
+                        if (splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 0) != splitString(xlRange.Cells[(i - 1), Global.colDate].Value.ToString(), ' ', 0) || xlRange.Cells[i, Global.colName].Value.ToString() != xlRange.Cells[(i - 1), Global.colName].Value.ToString())
                         {
                             if (tIn != null && tOut != null)
                             {
@@ -209,15 +209,15 @@ namespace WindowsFormsApp2
 
                             j++;
 
-                            while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0))
+                            while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 0))
                             {
                                 if (flagName == false)
                                 {
-                                    xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i - 1, 4].Value.ToString();
+                                    xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i - 1, Global.colName].Value.ToString();
                                 }
                                 else
                                 {
-                                    xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
+                                    xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, Global.colName].Value.ToString();
                                 }
 
                                 xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
@@ -234,9 +234,9 @@ namespace WindowsFormsApp2
                                     flagName = true;
                                 }
                             }
-                            xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, 4].Value.ToString();
-                            xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0);
-                            xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0));
+                            xlWorkSheet1.Cells[j, 1] = xlRange.Cells[i, Global.colName].Value.ToString();
+                            xlWorkSheet1.Cells[j, 2] = splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 0);
+                            xlWorkSheet1.Cells[j, 3] = DayOfWeek(splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 0));
                             if (d < maxDate)
                             {
                                 d = d.AddDays(1);
@@ -249,14 +249,14 @@ namespace WindowsFormsApp2
                             }
 
                             //Check-in
-                            xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
-                            tIn = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+                            xlWorkSheet1.Cells[j, 4] = splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 1);
+                            tIn = splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 1);
 
                         }
 
                         //Check-out
-                        xlWorkSheet1.Cells[j, 5] = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
-                        tOut = splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 1);
+                        xlWorkSheet1.Cells[j, 5] = splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 1);
+                        tOut = splitString(xlRange.Cells[i, Global.colDate].Value.ToString(), ' ', 1);
                     }
 
                     if (tIn != null && tOut != null)
@@ -269,7 +269,7 @@ namespace WindowsFormsApp2
                         while (d <= maxDate)
                         {
                             j++;
-                            xlWorkSheet1.Cells[j, 1] = xlRange.Cells[rowCount, 4].Value.ToString();
+                            xlWorkSheet1.Cells[j, 1] = xlRange.Cells[rowCount, Global.colName].Value.ToString();
                             xlWorkSheet1.Cells[j, 2] = d.ToString("dd.MM.yyyy");
                             xlWorkSheet1.Cells[j, 3] = DayOfWeek(d.ToString("dd.MM.yyyy"));
                             d = d.AddDays(1);
