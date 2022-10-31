@@ -110,11 +110,11 @@ namespace WindowsFormsApp2
 
                 int rowCount = xlRange.Rows.Count;
 
-                D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0);
+                D = splitString(xlRange.Cells[2, 1].Value.ToString(), ' ', 0); 
                 DateTime minDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
                 DateTime maxDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
 
-                for(int i = 2; i <= rowCount; i++)
+                for (int i = 2; i <= rowCount; i++)
                 {
                     findMinMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref minDate, ref maxDate);
                 }
