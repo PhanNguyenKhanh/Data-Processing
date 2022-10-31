@@ -77,6 +77,8 @@ namespace WindowsFormsApp2
         }
         private void btnGenerate_Click(object sender, EventArgs e)
         {
+            btnBrowse.Enabled = false;
+            btnGenerate.Enabled = false;
             lState.Text = "File is opening...";
 
             //Kill background process Excel
@@ -326,6 +328,14 @@ namespace WindowsFormsApp2
                     lState.Text = "Error";
                 }));
             }
+            btnBrowse.Invoke(new MethodInvoker(() =>
+            {
+                btnBrowse.Enabled = true;
+            }));
+            btnGenerate.Invoke(new MethodInvoker(() =>
+            {
+                btnGenerate.Enabled = true;
+            }));
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
