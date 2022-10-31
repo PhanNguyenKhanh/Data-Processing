@@ -109,7 +109,6 @@ namespace WindowsFormsApp2
 
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(@"" + InputFile.Text);
-                //Excel.Worksheet xlWorkSheet = xlWorkBook.Sheets[1];
 
                 Global.listSheet = new string[xlWorkBook.Worksheets.Count];
 
@@ -118,8 +117,10 @@ namespace WindowsFormsApp2
                     Global.listSheet[c] = s.Name;
                     c++;
                 }
+
                 ConfigDialog configDialog = new ConfigDialog();
                 configDialog.ShowDialog();
+
                 if (configDialog.DialogResult == DialogResult.OK)
                 {
                     Excel.Worksheet xlWorkSheet = xlWorkBook.Sheets[Global.sheetIndex];
@@ -141,6 +142,10 @@ namespace WindowsFormsApp2
                     for (int i = 2; i <= rowCount; i++)
                     {
                         findMinMaxDate(xlRange.Cells[i, 1].Value.ToString(), ref minDate, ref maxDate);
+                        lState.Invoke(new MethodInvoker(() =>
+                        {
+                            lState.Text = "Checking the date (" + ((float)i / rowCount * 100).ToString("0.00") + "%)";
+                        }));
                     }
 
                     xlWorkSheet1.Cells[1, 1] = "Staff's Name";
@@ -186,6 +191,11 @@ namespace WindowsFormsApp2
 
                     for (int i = 3; i <= rowCount; i++)
                     {
+                        lState.Invoke(new MethodInvoker(() =>
+                        {
+                            lState.Text = "Processing (" + ((float)i / rowCount * 100).ToString("0.00") + "%)";
+                        }));
+
                         if (splitString(xlRange.Cells[i, 1].Value.ToString(), ' ', 0) != splitString(xlRange.Cells[(i - 1), 1].Value.ToString(), ' ', 0) || xlRange.Cells[i, 4].Value.ToString() != xlRange.Cells[(i - 1), 4].Value.ToString())
                         {
                             if (tIn != null && tOut != null)
@@ -298,7 +308,10 @@ namespace WindowsFormsApp2
                     xlApp.Quit();
                     Marshal.ReleaseComObject(xlApp);
 
-                    lState.Text = "Success";
+                    lState.Invoke(new MethodInvoker(() =>
+                    {
+                        lState.Text = "Success";
+                    }));
                 }
                 else
                 {
@@ -308,7 +321,10 @@ namespace WindowsFormsApp2
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                lState.Text = "Error";
+                lState.Invoke(new MethodInvoker(() =>
+                {
+                    lState.Text = "Error";
+                }));
             }
         }
 
