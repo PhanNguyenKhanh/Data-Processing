@@ -49,7 +49,7 @@ namespace WindowsFormsApp2
             // lState
             // 
             this.lState.AutoSize = true;
-            this.lState.Location = new System.Drawing.Point(465, 17);
+            this.lState.Location = new System.Drawing.Point(9, 37);
             this.lState.Name = "lState";
             this.lState.Size = new System.Drawing.Size(16, 13);
             this.lState.TabIndex = 1;
@@ -75,7 +75,7 @@ namespace WindowsFormsApp2
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 41);
+            this.label1.Location = new System.Drawing.Point(12, 57);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(296, 26);
             this.label1.TabIndex = 5;
@@ -86,7 +86,7 @@ namespace WindowsFormsApp2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 71);
+            this.ClientSize = new System.Drawing.Size(468, 92);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.InputFile);
             this.Controls.Add(this.btnBrowse);
