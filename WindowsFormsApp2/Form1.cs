@@ -101,19 +101,21 @@ namespace WindowsFormsApp2
         {
             try
             {
-                int j = 2;
-                int c = 0;
+                int j = 2; //Row of output file
+                int c = 0; //Use to get all sheet name
                 string tIn = "";
                 string tOut = "";
                 Boolean flagName = false;
 
-                String D = "";
+                string D = ""; //Use to find min and max date
 
                 Excel.Application xlApp = new Excel.Application();
                 Excel.Workbook xlWorkBook = xlApp.Workbooks.Open(@"" + InputFile.Text);
 
+                //Number of sheets
                 Global.listSheet = new string[xlWorkBook.Worksheets.Count];
 
+                //List the sheet name
                 foreach (Excel.Worksheet s in xlWorkBook.Worksheets)
                 {
                     Global.listSheet[c] = s.Name;
@@ -130,6 +132,7 @@ namespace WindowsFormsApp2
 
                     Excel.Workbook xlWorkBook1;
                     Excel.Worksheet xlWorkSheet1;
+
                     object missValue = System.Reflection.Missing.Value;
 
                     xlWorkBook1 = xlApp.Workbooks.Add(missValue);
@@ -141,6 +144,7 @@ namespace WindowsFormsApp2
                     DateTime minDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
                     DateTime maxDate = new DateTime(int.Parse(splitString(D, '.', 2)), int.Parse(splitString(D, '.', 1)), int.Parse(splitString(D, '.', 0)));
 
+                    //Find min and max date
                     for (int i = 2; i <= rowCount; i++)
                     {
                         findMinMaxDate(xlRange.Cells[i, Global.colDate].Value.ToString(), ref minDate, ref maxDate);
@@ -157,7 +161,7 @@ namespace WindowsFormsApp2
                     xlWorkSheet1.Cells[1, 5] = "Time out";
                     xlWorkSheet1.Cells[1, 6] = "Total Working Time";
 
-                    DateTime d = minDate;
+                    DateTime d = minDate; //Date is being processed
 
                     while (d.ToString("dd.MM.yyyy") != splitString(xlRange.Cells[2, Global.colDate].Value.ToString(), ' ', 0))
                     {
