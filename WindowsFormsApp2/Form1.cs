@@ -99,9 +99,10 @@ namespace WindowsFormsApp2
 
         private void Processing()
         {
+            int j = 2;
             try
             {
-                int j = 2; //Row of output file
+                //int j = 2; //Row of output file
                 int c = 0; //Use to get all sheet name
                 string tIn = "";
                 string tOut = "";
@@ -326,7 +327,7 @@ namespace WindowsFormsApp2
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error at row " + j.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 lState.Invoke(new MethodInvoker(() =>
                 {
                     lState.Text = "Error";
